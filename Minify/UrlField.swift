@@ -22,8 +22,10 @@ struct UrlField: View {
             } label: {
                 Image(systemName: "paperplane.fill").padding(4)
             }
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(.glassProminent)
             .padding(.bottom, 4)
+            .contentShape(Rectangle())
+            .tint(Color(r: 113, g: 145, b: 175))
             .disabled(isDisable)
         }
         .padding(.trailing, 4)
