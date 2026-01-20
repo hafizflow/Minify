@@ -8,17 +8,38 @@ struct ContentView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading) {
-                    Image(.link)
-                        .resizable()
-                        .scaledToFit()
-                        .offset(y: isAnimating ? -50 : 0)
-                        .opacity(isAnimating ? 1 : 0)
-
+                    HomeImage(isAnimating: isAnimating)
                     AnimatedText(isAnimating: isAnimating)
+                    
+                    HStack(alignment: .center) {
+                        HStack {
+                            Text("render.com/hafizflow")
+                                .foregroundStyle(.secondary)
+                                .lineLimit(1)
+                            Spacer()
+                        }
+                        .padding(.vertical, 12)
+                        
+                        Spacer().frame(width: 20)
+                        HStack(alignment: .center, spacing: 14) {
+                            Button("QR Code", systemImage: "qrcode") {}
+                                .labelStyle(.iconOnly)
+                                .tint(.red)
+                            Button("Share", systemImage: "arrowshape.turn.up.forward") {}
+                                .labelStyle(.iconOnly)
+                                .tint(.green)
+                            Button("Copy", systemImage: "square.on.square") {}
+                                .labelStyle(.iconOnly)
+                                .tint(Color(r: 113, g: 145, b: 175))
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .glassEffect(.regular.tint(.blue.opacity(0.05)), in: .rect(cornerRadius: 20))
+                    .offset(y: -30)
                 }
                 .padding(.horizontal)
             }
-            .scrollDismissesKeyboard(.automatic)
+            .scrollDismissesKeyboard(.interactively)
             .contentShape(Rectangle())
             .onTapGesture { isFocused = false }
             .safeAreaInset(edge: .bottom) {
@@ -44,9 +65,7 @@ struct ContentView: View {
                     isAnimating = true
                 }
             }
-            .onDisappear {
-                isAnimating = false
-            }
+            .onDisappear { isAnimating = false }
         }
     }
 }
