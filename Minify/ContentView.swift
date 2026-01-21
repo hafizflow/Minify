@@ -2,6 +2,9 @@ import SwiftUI
 
 struct ContentView: View {
     @FocusState private var isFocused: Bool
+    @Binding var enable: Bool
+    var Open: () -> Void
+    
     @State private var isAnimating = false
     
     var body: some View {
@@ -54,22 +57,17 @@ struct ContentView: View {
             .toolbarTitleDisplayMode(.inlineLarge)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("History", systemImage: "text.alignright") {
-                        
-                    }
+                    Button("History", systemImage: "text.alignright") { Open() }
                     .contentShape(Rectangle())
+                    .disabled(!enable)
                 }
             }
-            .onAppear {
-                withAnimation(.easeOut(duration: 1)) {
-                    isAnimating = true
-                }
-            }
+            .onAppear { withAnimation(.spring(duration: 1)) { isAnimating = true } }
             .onDisappear { isAnimating = false }
         }
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(enable: .constant(true), Open: {})
 }

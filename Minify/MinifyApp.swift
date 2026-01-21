@@ -11,7 +11,7 @@ import SwiftUI
 struct MinifyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeView()
                 .preferredColorScheme(.dark)
         }
     }

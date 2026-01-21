@@ -1,8 +1,6 @@
 import SwiftUI
 
-enum theviews {
-    case home, history
-}
+enum theviews { case home }
 
 struct HomeView: View {
     @State var xoffset: CGFloat = 0
@@ -15,14 +13,9 @@ struct HomeView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                Group {
-                    switch currentView {
-                        case .home:
-                            ContentView()
-                        case .history:
-                            HistoryView()
-                    }
-                }
+                ContentView(enable: $enablePushButton, Open: {
+                    sidePosition += geo.size.width / 1.5
+                })
                 .offset(x: (xoffset + sidePosition) / 10)
                 .blur(radius: (xoffset + sidePosition) / 10)
                 
@@ -46,19 +39,32 @@ struct HomeView: View {
                     } else {
                         let excess = abs(rawDrag) - threshold
                         let slowedExcess = excess / 10
-                        drag = rawDrag > 0 ? threshold + slowedExcess : -(threshold + slowedExcess)
+                        drag = rawDrag > 0 ? threshold + slowedExcess : -threshold - slowedExcess
                     }
                     
                     switch gesture.state {
-                        case.changed:
-                            if (sidePosition == 0 && drag >= 0) || (sidePosition > 0 && drag <= 0) {
+                        case .changed:
+                            if sidePosition == 0 && drag >= 0 {
+                                    // Closed state: allow drag right (opening)
                                 xoffset = drag
                                 isKeyboardOpen = false
                                 enablePushButton = false
+                            } else if sidePosition > 0 && drag <= 0 {
+                                    // Open state: allow drag left (closing) but limit it
+                                xoffset = max(drag, -sidePosition) // Prevent going past closed position
+                                isKeyboardOpen = false
+                                enablePushButton = false
+                            } else if sidePosition > 0 && drag > 0 {
+                                    // Open state: dragging right (beyond open) - slow it down
+                                xoffset = drag / 10 // Slowed drag
+                                isKeyboardOpen = false
+                                enablePushButton = false
+                            } else {
+                                xoffset = 0
                             }
                         case .ended:
                             withAnimation(.spring(duration: 0.2)) {
-                                if drag > 100 && show == false {
+                                if drag > 100 && sidePosition == 0 {
                                     sidePosition += geo.size.width / 1.5
                                 } else if drag < -100 && sidePosition > 0 {
                                     sidePosition -= geo.size.width / 1.5
@@ -78,12 +84,6 @@ struct HomeView: View {
             }
         }
         
-    }
-}
-
-struct HistoryView: View {
-    var body: some View {
-        Text("History View")
     }
 }
 
