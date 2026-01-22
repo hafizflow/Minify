@@ -1,10 +1,3 @@
-//
-//  ColorExtension.swift
-//  Minify
-//
-//  Created by Hafizur Rahman on 19/1/26.
-//
-
 import Foundation
 import SwiftUI
 

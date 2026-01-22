@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @FocusState private var isFocused: Bool
+    @FocusState var isFocused: Bool
     @Binding var enable: Bool
     var Open: () -> Void
     
@@ -66,8 +66,4 @@ struct ContentView: View {
             .onDisappear { isAnimating = false }
         }
     }
-}
-
-#Preview {
-    ContentView(enable: .constant(true), Open: {})
 }

@@ -13,9 +13,12 @@ struct HomeView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                ContentView(enable: $enablePushButton, Open: {
+                ContentView(isFocused: _isKeyboardOpen, enable: $enablePushButton, Open: {
+                        // Prevent opening if already open
+                    guard sidePosition == 0 else { return }
+                    
                     withAnimation(.spring(duration: 0.5)) {
-                        sidePosition += geo.size.width / 1.5
+                        sidePosition = geo.size.width / 1.5  // Set directly instead of adding
                     }
                 })
                 .offset(x: (xoffset + sidePosition) / 10)
@@ -24,7 +27,7 @@ struct HomeView: View {
                 SideView(currentView: $currentView, enable: $enablePushButton, Close: {
                     withAnimation(.spring(duration: 0.5)) {
                         show.toggle()
-                        sidePosition -= geo.size.width / 1.5
+                        sidePosition = 0  // Set directly to 0 instead of subtracting
                     }
                 })
                 .offset(x: -geo.size.width / 1.5 + xoffset + sidePosition)
@@ -69,9 +72,9 @@ struct HomeView: View {
                         case .ended:
                             withAnimation(.spring(duration: 0.2)) {
                                 if drag > 50 && sidePosition == 0 {
-                                    sidePosition += geo.size.width / 1.5
+                                    sidePosition = geo.size.width / 1.5  // Set directly
                                 } else if drag < -50 && sidePosition > 0 {
-                                    sidePosition -= geo.size.width / 1.5
+                                    sidePosition = 0  // Set directly to 0
                                 }
                                 enablePushButton = true
                                 xoffset = 0
@@ -83,7 +86,7 @@ struct HomeView: View {
             )
             .onChange(of: currentView) { oldValue, newValue in
                 withAnimation(.spring(duration: 0.2)) {
-                    sidePosition -= geo.size.width / 1.5
+                    sidePosition = 0  // Set directly to 0
                 }
             }
         }
