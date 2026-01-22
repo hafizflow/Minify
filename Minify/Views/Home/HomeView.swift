@@ -14,14 +14,18 @@ struct HomeView: View {
         GeometryReader { geo in
             ZStack {
                 ContentView(enable: $enablePushButton, Open: {
-                    sidePosition += geo.size.width / 1.5
+                    withAnimation(.spring(duration: 0.5)) {
+                        sidePosition += geo.size.width / 1.5
+                    }
                 })
                 .offset(x: (xoffset + sidePosition) / 10)
                 .blur(radius: (xoffset + sidePosition) / 10)
                 
                 SideView(currentView: $currentView, enable: $enablePushButton, Close: {
-                    show.toggle()
-                    sidePosition -= geo.size.width / 1.5
+                    withAnimation(.spring(duration: 0.5)) {
+                        show.toggle()
+                        sidePosition -= geo.size.width / 1.5
+                    }
                 })
                 .offset(x: -geo.size.width / 1.5 + xoffset + sidePosition)
                 .opacity(max(0, min(1, (Double(xoffset + sidePosition) - 40) / 100)))
@@ -64,9 +68,9 @@ struct HomeView: View {
                             }
                         case .ended:
                             withAnimation(.spring(duration: 0.2)) {
-                                if drag > 100 && sidePosition == 0 {
+                                if drag > 50 && sidePosition == 0 {
                                     sidePosition += geo.size.width / 1.5
-                                } else if drag < -100 && sidePosition > 0 {
+                                } else if drag < -50 && sidePosition > 0 {
                                     sidePosition -= geo.size.width / 1.5
                                 }
                                 enablePushButton = true
