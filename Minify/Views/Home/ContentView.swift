@@ -37,7 +37,7 @@ struct ContentView: View {
                         }
                     }
                     .padding(.horizontal, 16)
-                    .glassEffect(.regular.tint(.blue.opacity(0.05)), in: .rect(cornerRadius: 20))
+                    .glassEffect(.regular.tint(.blue.opacity(0.05)), in: .rect(cornerRadius: 30))
                     .offset(y: -30)
                 }
                 .padding(.horizontal)

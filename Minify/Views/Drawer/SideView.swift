@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SideView: View {
-    @Binding var currentView: theviews
+    @FocusState.Binding var isSearchFocused: Bool
     @Binding var enable: Bool
     var Close: () -> Void
     
@@ -14,7 +14,8 @@ struct SideView: View {
                     
                 }
             }
-            .searchable(text: $search) { }
+            .searchable(text: $search)
+            .searchFocused($isSearchFocused)
             .navigationTitle("History")
             .toolbarTitleDisplayMode(.inlineLarge)
             .toolbar {
@@ -41,5 +42,6 @@ struct SideView: View {
 }
 
 #Preview {
-    SideView(currentView: .constant(.home), enable: .constant(true), Close: {})
+//    SideView(enable: .constant(true), Close: {})
 }
+

@@ -10,10 +10,12 @@ struct UrlField: View {
     
     var body: some View {
         HStack(alignment: .bottom) {
-            TextField("Enter Long URL....", text: $url, axis: .vertical)
+            TextField("Enter Long URL....", text: $url, prompt: Text("Enter Long URL....")
+                .foregroundColor(.white.opacity(0.65)), axis: .vertical)
                 .focused($isFocused)
                 .autocorrectionDisabled()
-                .padding(.leading, 12)
+                .textInputAutocapitalization(.never)
+                .padding(.leading, 16)
                 .padding(.vertical, 12)
                 .contentShape(Rectangle())
             
@@ -29,8 +31,8 @@ struct UrlField: View {
             .disabled(isDisable)
         }
         .padding(.trailing, 4)
-        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 20))
-        .padding(.bottom, 12)
+        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 30))
+        .padding(.bottom, isFocused ? 12 : 0)
     }
 }
 
