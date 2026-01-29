@@ -31,7 +31,7 @@ struct UrlField: View {
             .disabled(isDisable)
         }
         .padding(.trailing, 4)
-        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 30))
+        .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 24))
         .padding(.bottom, isFocused ? 12 : 0)
     }
 }

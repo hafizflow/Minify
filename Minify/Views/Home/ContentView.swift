@@ -67,3 +67,9 @@ struct ContentView: View {
         }
     }
 }
+
+
+#Preview {
+    @Previewable @FocusState var isFocused: Bool
+    ContentView(isFocused: _isFocused, enable: .constant(true), Open: {})
+}
